@@ -1,4 +1,4 @@
-import os, shutil, sys, zipfile, mmap, pylint, codecs
+import os, shutil, sys, zipfile, codecs
 from os import listdir
 
 class Search:
@@ -49,14 +49,9 @@ class Search:
 
     
     def search_file(self, file, text):
-        #with open(file, 'rb') as read_obj:
-        #with open(file, "r", "utf-16") as read_obj:
-        read_obj = codecs.open(file, "r", "utf-16-le")
+        read_obj = codecs.open(file, 'r', 'utf-16-le')
         for line in read_obj:
-            line = line.strip().lower().replace('"', '').replace("\\","")
-            text = text.strip().lower()
-            print(text, len(line), len(text), line.count(text),line.find(text),str(text) in str(line))#,str(line))
-            if str(text) in str(line):
+            if text in line:
                 return True
         read_obj.close()
         return False
@@ -75,51 +70,6 @@ class Search:
 
             if self.search_file('Layout.txt', text):
                 paths.append(folder)
-            '''
-            with open('Layout.txt', 'r') as read_obj:
-                for line in read_obj:
-                    line = line.strip().lower().replace('"', '').replace("\\","")
-                    text = text.strip().lower()
-                    print(text, len(line), len(text), line.count(text),line.find(text),str(text) in str(line))#,str(line))
-                    if str(text) in str(line):
-                        paths.append(folder)
-            read_obj.close()
-            '''
-            '''
-            with open('Layout.txt','r') as f:
-                search_lines = f.readlines()
-            for i, line in enumerate(search_lines):                
-                if text in line:
-                    for l in search_lines[i:i+3:]:
-                        print(l)
-                        paths.append(l)
-            '''
-            '''(i)  data   = mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ)
-            (ii) result = data.find(search_str)'''
-
-            '''
-            data = mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ)
-            '''
-            '''
-            search_file = open('Layout.txt', 'r')
-            for i, line in enumerate(search_file):
-                line = line.strip().lower()
-                text = text.strip().lower()
-                print(i, text, len(line), len(text), line.count(text),line.find(text),str(text) in str(line))#,str(line))
-                if text in line:
-                    paths.append(folder)
-                #if text.lower() in line.lower():
-                    #if folder not in paths:
-            search_file.close()
-            '''
-            '''
-            with open('Layout.txt','r') as f:
-                print('Searching ' + text + ' in ' + layout_text)
-                print(any(text in line for line in f))
-                if text in f.read():
-                    paths.append(folder)
-            '''
-        print(paths)
         return paths
 
 
